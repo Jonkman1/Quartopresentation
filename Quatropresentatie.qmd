@@ -1,6 +1,6 @@
 ---
 title: "Begin van mijn Quarto reis"
-subtitle: "Opgemaakt met Tufte Handout via Quarto"
+subtitle: "Opzet voor een Quarto presentatie"
 author: "Meghan Hall, bewerking Harrie Jonkman"
 date: "`r Sys.Date()`"
 format:
@@ -13,8 +13,8 @@ citation-location: margin
 ## Quatro
 Afgelopen weken heb ik wat met Quarto geëxperimenteerd. Zo heb ik met Quarto een boek gemaakt en daarover zal ik nog een andere blog schrijven. Ook heb ik met Quarto wat presentaties gemaakt. Meghan Hall heeft mij hier veel geleerd. Zij heeft een presentatie in Quarto gezet [hier](https://meghan.rbind.io/slides/neair/neair.html#/title-slide) en de repository daarvan vind je [hier](https://github.com/meghall06/neair). Hoe ze deze aantrekkelijke presentatie heeft opgemaakt, beschrijft ze in haar [blog](https://meghan.rbind.io/blog/quarto-slides/). 
 
-**HIER VIND JE DIE PRESENTATIE**
-De presentatie heb ik vertaald en in andere kleuren gezet [hier](NEAIRNederlands.html). De blogopmaak heb ik zelf wat aangepast. De aangepaste presentatie en blog vind je op mijn github-site [hier](https://github.com/Jonkman1/HHquarto). Hartelijke dank Meghan Hall voor jouw duidelijke uitleg, veel van geleerd. 
+**HIER VIND JE DIE PRESENTATIE**   
+De presentatie heb ik vertaald en in andere kleuren gezet [hier](https://github.com/Jonkman1/Quartopresentation/NEAIRNederlands.html). De blogopmaak heb ik zelf wat aangepast. De aangepaste presentatie en blog vind je op mijn github-site [hier](https://github.com/Jonkman1/Quartopresentation). Hartelijke dank Meghan Hall voor jouw duidelijke uitleg, veel van geleerd. 
 
 ## Begin van mijn Quarto reis
 
