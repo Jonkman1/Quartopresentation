@@ -1,0 +1,2172 @@
+---
+title: "Stroomlijnen met R"
+author: "Meghan Hall<br>NEAIR<br>July 12, 2022<br>Harrie Jonkman<br>Februari 9, 2023"
+biglogo: workshop.png 
+format: 
+  revealjs:
+    footer: "[github.com/meghall06/neair](https://github.com/meghall06/neair)&nbsp;&nbsp;&nbsp;"
+    theme: [moon, "C:/FilesHarrie/Quarto/MeganHall/Quatropresentation/css/customNSCR.scss"]
+    preview-links: auto
+    chalkboard: 
+      boardmarker-width: 5
+from: markdown+emoji
+execute:
+  echo: true
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+
+```{=html}
+<style type="text/css">
+.reveal .slide-logo {
+  top: 0;
+  left: 12px;
+  height="574";
+  width="499"
+}
+</style>
+```
+
+## Huishoudelijke mededelingen
+
+<br/>
+
+::: incremental
+-   Intro :wave:
+-   Materialen workshop :arrow_down:
+-   Pauze :clock9:
+-   Aan het einde :heavy_check_mark:
+-   Het plan vandaag :clipboard:
+:::
+
+------------------------------------------------------------------------
+
+## Het plan vandaag
+
+<br/>
+
+::: incremental
+1.  Wat is R? Hoe kan het de last van herhaalde rapportering verlichten?
+2.  Basis functies voor het manipuleren van data
+3.  R effectief gebruiken
+4.  Meer datamanipulatie
+5.  Visualiseren van data
+6.  Een piek bij ingewikkelde onderwerpen 
+:::
+
+# Wat is R?
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+1 [2 3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Wat is R?
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+1 [2 3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br> <br> <br> <br>
+
+::: {style="text-align: center"}
+R is een open-source ([**vrij te gebruiken**]{style="color:#cc0000"}!) programmeertaal voor het werken met data
+:::
+
+------------------------------------------------------------------------
+
+## De voordelen van R
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+1 [2 3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br> <br>
+
+Mijn persoonlijke Excel nachtmerrie
+
+<br>
+
+. . .
+
+Het magische van R is dat het [**reproduceerbaar**]{style="color:#cc0000"} is
+(door iemand anders *of* jouwzelf later)
+
+<br>
+
+. . .
+
+Hou data apart van de code (stappen datavoorbereiding)
+
+------------------------------------------------------------------------
+
+## R binnenhalen
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+1 [2 3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br/> <br/> <br/>
+
+Je hebt de [R-taal](https://cloud.r-project.org/) nodig <br/> <br/>
+
+. . .
+
+En ook de 
+[software](https://www.rstudio.com/products/rstudio/download/#download)
+
+------------------------------------------------------------------------
+
+## Navigeren in RStudio
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+1 [2 3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+::: {.absolute top="10%" left="0" width="1031" height="529"}
+::: {style="text-align: center"}
+![](RStudio1.png)
+:::
+:::
+
+::: {.absolute top="66%" left="55%"}
+::: {style="color: #cc0000"}
+project files vind je hier
+:::
+:::
+
+. . .
+
+::: {.absolute top="28%" left="70%"}
+::: {style="color: #cc0000"}
+geïmporteerde data komen hier
+:::
+:::
+
+. . .
+
+::: {.absolute top="50%" left="10%"}
+::: {style="color: #cc0000"}
+code *kan* hier komen
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Navigeren in RStudio
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+1 [2 3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+::: {.absolute top="10%" left="0" width="1031" height="529"}
+::: {style="text-align: center"}
+![](RStudio2.png)
+:::
+:::
+
+::: {.absolute top="66%" left="55%"}
+::: {style="color: #cc0000"}
+project files komen hier
+:::
+:::
+
+::: {.absolute top="28%" left="70%"}
+::: {style="color: #cc0000"}
+geïmporteerde data hier
+:::
+:::
+
+::: {.absolute top="35%" left="25%"}
+::: {style="color: #cc0000"}
+code kan ook<br>hier komen
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Gebruik van R
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+1 [2 3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+::: columns
+::: {.column width="50%"}
+<br> <br> Je gebruikt R via *pakketten*
+:::
+
+::: fragment
+<br/> ...die *functies* omvatten
+:::
+
+::: fragment
+<br> ...of gewoon *werkwoorden* zijn
+:::
+:::
+
+::: {.column width="50%"}
+::: fragment
+![](tidyverse.png){.absolute top="70" left="530" height="574"
+width="499"}
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Data van vandaag
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+1 [2 3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+```{r}
+#| echo: false
+library(tidyverse)
+faculty <- read_csv("faculty.csv")
+courses <- read_csv("courses.csv")
+opts <- options(knitr.kable.NA = "")
+```
+
+::: {style="text-align: center"}
+`faculteit`
+:::
+
+<br>
+
+::: {style="font-size: 0.75em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% head(6))
+```
+:::
+
+------------------------------------------------------------------------
+
+## Data van vandaag
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+1 [2 3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+::: {style="text-align: center"}
+`cursussen`
+:::
+
+<br>
+
+::: {style="font-size: 0.75em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% head(6))
+```
+:::
+
+# Basis datamanipulatie
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Bruikbare operaties
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br> <br>
+
+::: columns
+::: {.column width="15%"}
+::: {style="font-size: 1.75em; text-align: center"}
+`<-`
+:::
+:::
+
+::: {.column width="30%"}
+::: {style="font-size: 1.5em; text-align: center"}
+"opslaan als"
+:::
+:::
+
+::: {.column width="55%"}
+::: {style="font-size: 1.5em"}
+`opt + -`
+:::
+:::
+:::
+
+. . .
+
+::: columns
+::: {.column width="15%"}
+::: {style="font-size: 1.75em; text-align: center"}
+`%>%`
+:::
+:::
+
+::: {.column width="30%"}
+::: {style="font-size: 1.5em; text-align: center"}
+"en dan"
+:::
+:::
+
+::: {.column width="55%"}
+::: {style="font-size: 1.5em"}
+`Cmd + shift + m`
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Algemene functies
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+::: {.fragment .semi-fade-out}
+`filter` rijen houden of laten verdwijnen (observaties)
+
+`select` kolommen houden of laten verdwijnen (variabelen)
+
+`arrange` sorteren van data op basis van bepaalde variabele(n)
+
+`count` telt data op basis van bepaalde variabele(n)
+
+`mutate` creëert nieuwe variabelen
+
+`group_by`/`summarize` aggregeert data ([pivot
+tables]{style="color:#cc0000"}!)
+
+`str_*` functies werken makkelijk met tekst 
+:::
+
+------------------------------------------------------------------------
+
+## Syntax of een functie
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+<br>
+
+`function(data, argument(s))`
+
+<br>
+
+. . .
+
+is hetzelfde als
+
+<br>
+
+`data %>%`
+
+    `function(argument(s))`
+
+------------------------------------------------------------------------
+
+## Filter
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+`filter` houdt of doet rijen verdwijnen (observaties)
+
+de `==` operator zorgt voor gelijkheid
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| eval: false
+faculty %>% 
+  filter(dept1 == "Sociology")
+```
+:::
+
+::: {.column width="50%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% filter(dept1 == "Sociology") %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Filter
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+de `|` operator betekent "of"
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| eval: false
+faculty %>% 
+  filter(dept1 == "Sociology" | 
+           dept1 == "Physics")
+```
+:::
+
+::: {.column width="50%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% filter(dept1 == "Sociology" | dept1 == "Physics") %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Filter
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+de `%in%` operator is toegestaan voor verschillende opties in een list
+
+<br>
+
+::: columns
+::: {.column width="51%"}
+```{r}
+#| eval: false
+faculty %>% 
+  filter(dept1 %in% c("Sociology",
+                      "Physics",
+                      "Music"))
+```
+:::
+
+::: {.column width="49%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% filter(dept1 %in% c("Sociology","Physics","Music")) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Filter
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+de `&` operator combineert voorwaarden
+
+<br>
+
+::: columns
+::: {.column width="51%"}
+```{r}
+#| eval: false
+faculty %>% 
+  filter(dept1 %in% c("Sociology",
+                      "Physics",
+                      "Music") &
+         rank == "Professor")
+```
+:::
+
+::: {.column width="49%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% filter(dept1 %in% c("Sociology","Physics","Music") & rank == "Professor") %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Select
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+`select` houdt of doet kolommen verdwijnen (variabelen)
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| eval: false
+faculty %>% 
+  select(id, dept1, rank)
+```
+:::
+
+::: {.column width="50%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% select(id, dept1, rank) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Select
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+kan kolommen weggooien met -`column`
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| eval: false
+faculty %>% 
+  select(-dept2)
+```
+:::
+
+::: {.column width="50%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% select(-dept2) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Select
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+de pipe `%>%` verandert verschillende functies in een keer
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| eval: false
+faculty %>% 
+  select(id, dept1, rank) %>% 
+  filter(rank == "Professor")
+```
+:::
+
+::: {.column width="50%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% select(id, dept1, rank) %>% filter(rank == "Professor") %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Arrange
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+`arrange` sorteert dataset op basis van bepaalde variabele(n)
+
+gebruik `desc()` om volgorden te laten aflopen
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| eval: false
+courses %>% 
+  arrange(desc(enrollment))
+```
+:::
+
+::: {.column width="50%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% arrange(desc(enrollment)) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Arrange
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+kan sorteren op basis van verschillende variabelen
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| eval: false
+courses %>% 
+  arrange(dept, desc(enrollment))
+```
+:::
+
+::: {.column width="50%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% arrange(dept, desc(enrollment)) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Count
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+`count` telt dataset op basis van bepaalde variabele(n)  (heel handig om de data te leren kennen)
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| eval: false
+courses %>% 
+  count(dept)
+```
+:::
+
+::: {.column width="50%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% count(dept) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Count
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+kan `sort = TRUE` gebruiken om resultaten te ordenen
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| eval: false
+courses %>% 
+  count(dept, level, sort = TRUE)
+```
+:::
+
+::: {.column width="50%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% count(dept, level, sort = TRUE))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Mutate
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+`mutate` creëert nieuwe variabelen (met een `=`)
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| eval: false
+faculty %>% 
+  mutate(new = "hello!")
+```
+:::
+
+::: {.column width="50%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% mutate(new = "hello!") %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Mutate
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+veel handiger met een conditionele zoals `ifelse()`, die drie argumenten heeft:
+
+voorwaarde, als het waar is, als het niet waar is
+
+<br>
+
+::: columns
+::: {.column width="70%"}
+```{r}
+#| eval: false
+faculty %>% 
+  mutate(prof = ifelse(rank == "Professor",
+                       1, 0)) %>% 
+  select(rank, prof)
+```
+:::
+
+::: {.column width="30%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% mutate(prof = ifelse(rank == "Professor",
+                       1, 0)) %>% select(rank, prof) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Mutate
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+de `!` operator betekent *niet*
+
+`is.na()` identificeert lege waarden
+
+<br>
+
+::: columns
+::: {.column width="60%"}
+```{r}
+#| eval: false
+faculty %>% 
+  mutate(joint = ifelse(!is.na(dept2),
+                        "joint", NA)) %>% 
+  select(dept1, dept2, joint)
+  
+```
+:::
+
+::: {.column width="40%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% mutate(joint = ifelse(!is.na(dept2),
+                        "joint", NA)) %>% select(dept1, dept2, joint) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Mutate
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+met verschillende voorwaarden is `case_when()` veel handiger!
+
+```{r}
+#| eval: false
+faculty %>% 
+  mutate(division = case_when(dept1 %in% c("Sociology","Political Science") ~
+                                "Social Sciences",
+                              dept1 %in% c("Music","English") ~
+                                "Humanities",
+                              dept1 %in% c("Chemistry","Physics") ~
+                                "Sciences")) %>% 
+  select(dept1, division)
+```
+
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% mutate(division = case_when(dept1 %in% c("Sociology","Political Science") ~
+                                "Social Sciences",
+                              dept1 %in% c("Music","English") ~
+                                "Humanities",
+                              dept1 %in% c("Chemistry","Physics") ~
+                                "Sciences")) %>% 
+  select(dept1, division) %>% head(6))
+```
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Group by / summarize
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+`group_by`/`summarize` aggregeert data ([pivot
+tables]{style="color:#cc0000"}!)
+
+`group_by()` identificeert de groepvariabele(n) en `summarize()`
+specificeert de aggregatie
+
+<br>
+
+::: columns
+::: {.column width="60%"}
+```{r}
+#| eval: false
+courses %>% 
+  group_by(dept, semester) %>% 
+  summarize(enr = sum(enrollment))
+```
+:::
+
+::: {.column width="40%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% 
+  group_by(dept, semester) %>% 
+  summarize(enr = sum(enrollment)) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Group by / summarize
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1]{style="opacity:0.25"} 2 [3 4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+bruikbare argumenten met `summarize`:
+
+`mean`, `median`, `sd`, `min`, `max`, `n`
+
+<br>
+
+::: columns
+::: {.column width="67%"}
+```{r}
+#| eval: false
+courses %>% 
+  group_by(dept, semester) %>% 
+  summarize(enr = sum(enrollment),
+            count = n_distinct(course_id))
+```
+:::
+
+::: {.column width="33%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% 
+  group_by(dept, semester) %>% 
+  summarize(enr = sum(enrollment),
+            courses = n_distinct(course_id)) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+# Gebruik R effectief
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2]{style="opacity:0.25"} 3 [4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Werken in RStudio
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2]{style="opacity:0.25"} 3 [4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+::: {.absolute top="10%" left="0" width="1031" height="529"}
+::: {style="text-align: center"}
+![](RStudio2.png)
+:::
+:::
+
+::: {.absolute top="66%" left="55%"}
+::: {style="color: #cc0000"}
+projectfiles komen hier
+:::
+:::
+
+::: {.absolute top="28%" left="70%"}
+::: {style="color: #cc0000"}
+geïmporteerde data komen hier
+:::
+:::
+
+::: {.absolute top="35%" left="25%"}
+::: {style="color: #cc0000"}
+code kan ook<br>hier komen
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Werken in RStudio
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2]{style="opacity:0.25"} 3 [4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+::: columns
+::: {.column width="50%"}
+**In de console typen**
+
+-   Het is zoiets als een post-it: makkelijk voor snelle handelingen maar voor eenmalig gebruik 
+
+-   acties worden doorgevoerd maar de code niet
+
+-   maar een codechunck is een handeling per keer (`Return`)
+:::
+
+::: {.column width="50%"}
+::: fragment
+**In een codefile typen**
+
+-   scriptfiles hebben een `.R` extensie
+
+-   code wordt bewaard en onderdelen van welke lengte ook kunnen opnieuw gerund worden (`Cmd + Return`)
+
+-   doe \~95% van jouw typen in een codefile in plaats van in de console!
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Werken met pakketten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2]{style="opacity:0.25"} 3 [4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+pakketten moeten geïnstalleerd zijn op ieder computer die je gebruikt 
+
+```{r}
+#| eval: false
+# doe dit één keer (per computer)
+# install.packages("tidyverse")
+```
+
+<br>
+
+::: fragment
+pakketten moeten geladen worden met `library()` aan het begin van elke sessie
+
+```{r}
+#| eval: false
+# zet de pakketten altijd bovenaan de codefile
+library(tidyverse)
+```
+:::
+
+<br>
+
+::: fragment
+krijg toegang tot helpfiles door `??tidyverse` of `??mutate` in de console in te typen
+:::
+
+------------------------------------------------------------------------
+
+## Organiseren met projecten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2]{style="opacity:0.25"} 3 [4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+[**sterk**]{style="color: #cc0000"} aanbevolen om  *projects* te gebruiken om georganiseerd te blijven 
+
+<br>
+
+hou codefiles en datafiles bij elkaar voor betere filepad-navigatie en voor betere reproduceerbare werkgewoonten
+
+. . .
+
+<br>
+
+`File -> New Project`
+
+<br>
+
+meer onderbouwing vind je:
+[hier](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-Projects)
+en
+[hier](https://r4ds.had.co.nz/workflow-projects.html#rstudio-projects)
+
+------------------------------------------------------------------------
+
+## Organiseren met projecten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2]{style="opacity:0.25"} 3 [4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+::: {.absolute top="10%" left="0" width="1031" height="529"}
+::: {style="text-align: center"}
+![](RStudio2.png)
+:::
+:::
+
+::: {.absolute top="66%" left="55%"}
+::: {style="color: #cc0000"}
+projectfiles komen hier
+:::
+:::
+
+::: {.absolute top="28%" left="70%"}
+::: {style="color: #cc0000"}
+geïmporteerde data verschijnen hier 
+:::
+:::
+
+::: {.absolute top="35%" left="25%"}
+::: {style="color: #cc0000"}
+code kan ook<br>hier komen
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Toegang tot workshopmaterialen
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2]{style="opacity:0.25"} 3 [4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+::: {.absolute top="40%" left="0"}
+::: {style="text-align: center"}
+![](GitHub.png)
+:::
+:::
+
+<br>
+
+Klik op de groene Codeknop en selecteer "Download ZIP", en open
+`neair.Rproj`
+
+------------------------------------------------------------------------
+
+## Toegang data
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2]{style="opacity:0.25"} 3 [4 5 6]{style="opacity:0.25"}
+:::
+:::
+
+gebruik `read_csv()` om een csv-file te importeren
+
+```{r}
+#| eval: false
+# de filepad is zo simpel als je projecten gebruikt!
+# ?read_csv() in de console geeft je de helpfile met meer opties
+faculty <- read_csv("faculty.csv")
+```
+
+<br>
+
+::: fragment
+het [readxl](https://readxl.tidyverse.org/) pakket is behulpzaam voor Excelfiles
+
+```{r}
+#| eval: false
+# needs to be loaded but not installed as it's part of the tidyverse
+library(readxl)
+faculty <- read_excel("faculty.xlsx", sheet = 2)
+```
+:::
+
+<br>
+
+::: fragment
+Bekijk de data met `View(faculty)` of klik op de datanaam in het Environment paneel
+:::
+
+# Meer datamanipulatie
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Stringr functies
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+functions van `stringr` (die allemaal beginnen met `str_`) zijn behulpzaam als je met tekstdata werkt
+
+::: columns
+::: {.column width="58%"}
+```{r}
+#| eval: false
+faculty %>% 
+  filter(str_detect(rank, "Professor"))
+```
+:::
+
+::: {.column width="42%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% 
+  filter(str_detect(rank, "Professor")) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Stringr functies
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+cheatsheet met functies hiervan vind je 
+[hier](https://github.com/rstudio/cheatsheets/blob/main/strings.pdf)
+
+<br>
+
+::: columns
+::: {.column width="75%"}
+```{r}
+#| eval: false
+courses %>% 
+  mutate(year = str_c(str_sub(semester, 1, 4), 
+                      "-",
+                      str_sub(semester, 5, 6))) %>% 
+  select(semester, year) %>% 
+  unique()
+```
+:::
+
+::: {.column width="25%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% 
+  mutate(year = str_c(str_sub(semester, 1, 4), 
+                      "-",
+                      str_sub(semester, 5, 6))) %>% select(semester, year) %>% unique())
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Omdraaien van data
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+de `faculteit` data hebben een rij per departement, sommige met meerdere departementen (vaak bekend als *wijde* data)
+
+<br>
+
+::: {style="font-size: 0.75em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% head(6))
+```
+:::
+
+------------------------------------------------------------------------
+
+## Omdraaien van data
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+wat als je één rij per faculteit *per department* wilt?
+(vaak bekend als *lange* data)
+
+<br>
+
+::: {style="font-size: 0.75em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% 
+  pivot_longer(dept1:dept2,
+               names_to = "dept_no",
+               values_to = "dept",
+               values_drop_na = TRUE) %>% head(6))
+```
+:::
+
+------------------------------------------------------------------------
+
+## Omdraaien van data
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+de `pivot_longer` functie verlengt data
+
+<br>
+
+::: columns
+::: {.column width="66%"}
+```{r}
+#| eval: false
+faculty %>% 
+  pivot_longer(dept1:dept2,
+               names_to = "dept_no",
+               values_to = "dept",
+               values_drop_na = TRUE) %>% 
+  select(-year, -rank)
+```
+:::
+
+::: {.column width="34%"}
+::: fragment
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% 
+  pivot_longer(dept1:dept2,
+               names_to = "dept_no",
+               values_to = "dept",
+               values_drop_na = TRUE) %>% 
+  select(-year, -rank) %>% head(6))
+```
+:::
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Omdraaien van data
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+en `pivot_wider` werkt in tegengestelde richting!
+
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% head(2))
+```
+:::
+
+. . .
+
+<br>
+
+```{r}
+#| eval: false
+courses %>% 
+  pivot_wider(names_from = "level",
+              values_from = "enrollment")
+```
+
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% 
+  pivot_wider(names_from = "level",
+              values_from = "enrollment") %>% head(4))
+```
+:::
+
+------------------------------------------------------------------------
+
+## Data laten aansluiten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+R heeft handige functies voor het omgaan met [relationele
+data]{style="color: #cc0000"}
+
+<br>
+
+alles wat je nodig hebt is een [key variable]{style="color: #cc0000"} die datasets met elkaar verbindt
+
+<br>
+
+`left_join` is het meest algemeen, maar er zijn er
+[meer](https://r4ds.had.co.nz/relational-data.html)
+
+------------------------------------------------------------------------
+
+## Data laten aansluiten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+wat is de gemiddelde `UG enrollment per year` per faculteits rang?
+
+. . .
+
+::: {style="text-align: center"}
+`faculty`
+:::
+
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% head(4))
+```
+:::
+
+::: {style="text-align: center"}
+`courses`
+:::
+
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% head(4))
+```
+:::
+
+. . .
+
+::: {style="text-align: center"}
+`faculty$id` is hetzelfde als `courses$faculty_id`
+:::
+
+------------------------------------------------------------------------
+
+## Data laten aansluiten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+wat is de gemiddelde [UG enrollment per year, per
+faculty]{style="color: #cc0000"} rang?
+
+<br>
+
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses %>% head(5))
+```
+:::
+
+. . .
+
+-   filter uit `UG` cursussen alleen
+-   creëer onze `year` variabele opnieuw
+-   vat `enrollment` per `year` en `faculty_id` samen
+
+------------------------------------------------------------------------
+
+## Data laten aansluiten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+Gebruik de `<-` operator om de nieuwe dataframe `courses_UG`te creëren
+
+```{r}
+#| eval: false
+#| code-line-numbers: "1"
+courses_UG <- courses %>% 
+  filter(level == "UG") %>% 
+  mutate(year = str_c(str_sub(semester, 1, 4), 
+                      "-",
+                      str_sub(semester, 5, 6)))
+```
+
+------------------------------------------------------------------------
+
+## Data laten aansluiten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+`filter` op 'UG' alleen en `mutate` een nieuwe academisch `year`-variable
+
+```{r}
+#| eval: false
+#| code-line-numbers: "2-5"
+courses_UG <- courses %>% 
+  filter(level == "UG") %>% 
+  mutate(year = str_c(str_sub(semester, 1, 4), 
+                      "-",
+                      str_sub(semester, 5, 6)))
+```
+
+------------------------------------------------------------------------
+
+## Data laten aansluiten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+`group_by` op `year` en `faculty_id`; `summarize` enrollment
+
+```{r}
+#| code-line-numbers: "6-7"
+courses_UG <- courses %>% 
+  filter(level == "UG") %>% 
+  mutate(year = str_c(str_sub(semester, 1, 4), 
+                      "-",
+                      str_sub(semester, 5, 6))) %>% 
+  group_by(year, faculty_id) %>% 
+  summarize(enr = sum(enrollment))
+```
+
+. . .
+
+<br>
+
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses_UG %>% head(4))
+```
+:::
+
+------------------------------------------------------------------------
+
+## Data laten aansluiten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+wat is de gemiddelde UGinschrijving per jaar, per faculteitsrang?
+
+::: columns
+::: {.column width="60%"}
+::: {style="text-align: center"}
+`faculty`
+:::
+
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(faculty %>% head(6))
+```
+:::
+:::
+
+::: {.column width="40%"}
+::: {style="text-align: center"}
+`courses_UG`
+:::
+
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(courses_UG %>% arrange(desc(year)) %>% head(6))
+```
+:::
+:::
+:::
+
+. . .
+
+::: {.absolute top="42%" left="4%" width="150"}
+::: blackbox
+:::
+:::
+
+::: {.absolute top="42%" left="69%" width="185"}
+::: blackbox
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Data laten aansluiten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+```{r}
+fac_enr <- faculty %>% 
+  left_join(courses_UG, by = c("id" = "faculty_id",
+                               "year" = "year"))
+```
+
+::: {.absolute top="13%" left="9%"}
+[**1**]{style="color: #cc0000"}
+:::
+
+::: {.absolute top="13%" left="23%"}
+[**2**]{style="color: #cc0000"}
+:::
+
+::: {.absolute top="27.5%" left="26%"}
+[**3**]{style="color: #cc0000"}
+:::
+
+1.  nieuwe dataframe
+2.  dataframe waar je data aan toevoegt
+3.  dataframe waar nieuwe data vanaf komen
+
+. . .
+
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(fac_enr %>% head(6))
+```
+:::
+
+------------------------------------------------------------------------
+
+## Data laten aansluiten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3]{style="opacity:0.25"} 4 [5 6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+wat is de gemiddelde UGinschrijving per jaar, per faculteitsrang?
+
+```{r}
+#| code-line-numbers: "4-5"
+fac_enr <- faculty %>% 
+  left_join(courses_UG, by = c("id" = "faculty_id",
+                               "year" = "year")) %>% 
+  group_by(year, rank) %>% 
+  summarize(avg_enr = mean(enr, na.rm = TRUE))
+```
+
+. . .
+
+<br>
+
+::: {style="font-size: 0.45em"}
+```{r}
+#| echo: false
+knitr::kable(fac_enr %>% arrange(desc(year)) %>% head(6))
+```
+:::
+
+# Datavisualisatie
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4]{style="opacity:0.25"} 5 [6]{style="opacity:0.25"}
+:::
+:::
+
+## ggplot2
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4]{style="opacity:0.25"} 5 [6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+`ggplot2` is het datavisualizatiepakket dat geladen wordt met `tidyverse`
+
+<br>
+
+de [g]{style="color:#cc0000"}rammar of
+[g]{style="color:#cc0000"}raphics zorgt ervoor dat het geheel aan esthetische eisen voldoet
+
+. . .
+
+<br>
+
+met het visueel hercoderen van gegevens (in bv. lengte, kleur, positie, grootte) kunnen veranderingen en vergelijkingen worden getoond
+
+------------------------------------------------------------------------
+
+## Staafdiagram
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4]{style="opacity:0.25"} 5 [6]{style="opacity:0.25"}
+:::
+:::
+
+```{r}
+#| code-line-numbers: "1-2|3|4"
+#| eval: false
+faculty %>%
+  count(rank) %>%
+  ggplot(aes(x = rank, y = n)) +
+  geom_bar(stat = "identity")
+```
+
+. . .
+
+Om lijnen te combineren in een codechunk, gebruiken we `+` in plaats van `%>%`
+
+. . .
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-align: "center"
+faculty %>%
+  count(rank) %>%
+  ggplot(aes(x = rank, y = n)) +
+  geom_bar(stat = "identity")
+```
+
+------------------------------------------------------------------------
+
+## Staafdiagram
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4]{style="opacity:0.25"} 5 [6]{style="opacity:0.25"}
+:::
+:::
+
+kan makkelijk een mooiere grafiek maken
+
+```{r}
+#| code-fold: true
+#| code-summary: "expand for full code"
+#| fig-align: "center"
+faculty %>%
+  count(rank) %>%
+  ggplot(aes(x = reorder(rank, -n), y = n)) +
+  geom_bar(stat = "identity", fill = "#cc0000") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  geom_text(aes(label = n), vjust = -0.5) +
+  labs(x = NULL, y = NULL,
+       title = "Aantal faculteit per rang, 2018-2021") +
+  theme_linedraw() +
+  theme(panel.grid.major.x = element_blank(),
+        axis.ticks = element_blank())
+```
+
+------------------------------------------------------------------------
+
+## Lijngrafiek
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4]{style="opacity:0.25"} 5 [6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+```{r}
+#| code-line-numbers: "1-2|3|4"
+#| eval: false
+fac_enr %>% 
+  filter(!is.na(avg_enr)) %>% 
+  ggplot(aes(x = year, y = avg_enr, group = rank, color = rank)) +
+  geom_line()
+```
+
+. . .
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-align: "center"
+fac_enr %>% 
+  filter(!is.na(avg_enr)) %>% 
+  ggplot(aes(x = year, y = avg_enr, group = rank, color = rank)) +
+  geom_line()
+```
+
+------------------------------------------------------------------------
+
+## Lijn grafiek
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4]{style="opacity:0.25"} 5 [6]{style="opacity:0.25"}
+:::
+:::
+
+```{r}
+#| code-fold: true
+#| code-summary: "expand for full code"
+#| fig-align: "center"
+fac_enr %>% 
+  filter(!is.na(avg_enr)) %>% 
+  ggplot(aes(x = year, y = avg_enr, group = rank, color = rank)) +
+  geom_line() +
+  geom_point() +
+  scale_color_brewer(type = "qual", palette = "Dark2") +
+  labs(x = NULL, y = "Gemiddelde inschrijving",
+       title = "Gemiddelde UG per rang over tijd") +
+  theme_linedraw() +
+  theme(panel.grid.major.x = element_blank(),
+        axis.ticks = element_blank(),
+        legend.title = element_blank(),
+        legend.background = element_rect(fill = NA),
+        legend.key = element_rect(fill = NA),
+        legend.position = c(0.85, 0.82))
+```
+
+------------------------------------------------------------------------
+
+## ggplot2 bronnen
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4]{style="opacity:0.25"} 5 [6]{style="opacity:0.25"}
+:::
+:::
+
+Van [R for Data
+Science](https://r4ds.had.co.nz/data-visualisation.html)
+
+<br>
+
+[Data Visualization: a practical
+introduction](https://socviz.co/index.html#preface)
+
+<br>
+
+creëren [custom
+themes](https://themockup.blog/posts/2020-12-26-creating-and-using-custom-ggplot2-themes/)
+
+<br>
+
+het [ggplot2 boek](https://ggplot2-book.org/)
+
+<br>
+
+de [R grafiek gallerie](https://r-graph-gallery.com/index.html)
+
+------------------------------------------------------------------------
+
+## Alles samengevat
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4]{style="opacity:0.25"} 5 [6]{style="opacity:0.25"}
+:::
+:::
+
+<br>
+
+met alles wat we hebben gedaan, kan jouw `.R` file:
+
+::: incremental
+-   datafiles importeren
+-   [documenteer je alle dataopschoon- en voorbereidingsstappen en beslissingen]{style="color:#cc0000"}
+-   produceer je een publiceerbare grafiek die jouw resultaten samenvat
+:::
+
+. . .
+
+::: {style="text-align: center"}
+**en dat bestand zou het voor jou of iemand anders heel makkelijk maken om deze analyse over een tijdje te reproduceren met nieuwe gegevens**
+:::
+
+# Gevorderde onderwerpen
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4 5]{style="opacity:0.25"} 6
+:::
+:::
+
+## Quarto en RMarkdown
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4 5]{style="opacity:0.25"} 6
+:::
+:::
+
+<br>
+
+Gebruikt RStudio om `.qmd` en `.rmd` documenten te maken waarin tekst, code en grafieken zijn gecombineerd
+
+. . .
+
+<br>
+
+verschillende soorten output: html, pdf, Word, presentaties etc
+
+. . .
+
+<br>
+
+heel handig voor [specifiek rapporteren]{style="color:#cc0000"}:
+kan makkelijk een op R-gebaseerd PDFrapport maken en automatisch genereren voor, zeg, elk department
+
+------------------------------------------------------------------------
+
+## Interne pakketten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4 5]{style="opacity:0.25"} 6
+:::
+:::
+
+<br>
+
+je kunt je *eigen* pakket maken!
+
+. . .
+
+<br>
+
+jouw pakket omvat dan bijvoorbeeld:
+
+-   algemene datasets die je over projecten heen kunt gebruiken
+-   vaststellen van het `ggplot2` thema
+-   algemene functies en berekeningen (en hun definities!)
+
+. . .
+
+<br>
+
+kan op een gedeelde schijf worden gezet om zo samenwerking te faciliteren 
+
+------------------------------------------------------------------------
+
+## `Bronnen voor R Markdown en pakketten
+
+::: {.absolute top="0" left="100%"}
+::: sectionhead
+[1 2 3 4 5]{style="opacity:0.25"} 6
+:::
+:::
+
+<br>
+
+**R Markdown**
+
+de officiële [R Markdown
+website](https://rmarkdown.rstudio.com/lesson-1.html)
+
+[R Markdown: The Definitive
+Guide](https://bookdown.org/yihui/rmarkdown/)
+
+<br>
+
+**interne pakketten**
+
+een samenhangende [theoretische uitleg](https://emilyriederer.netlify.app/post/team-of-packages/)
+
+een [praatje van Meghan Hall](https://meghan.rbind.io/talk/boston-user/) eerder dit jaar over dit onderwerp
+
+# Meer over R leren
+
+## Bronnen
+
+[R for Data Science](https://r4ds.had.co.nz/): the ultimate guide
+
+<br>
+
+[R for Excel users](https://rstudio-conf-2020.github.io/r-for-excel/): a
+very useful workshop
+
+<br>
+
+[STAT 545](https://stat545.com/): een onlineboek over reproduceerbare dataanalysis in R
+
+<br>
+
+de [RStudio Education](https://education.rstudio.com/) site
+
+<br>
+
+de [Learn `tidyverse`](https://www.tidyverse.org/learn/) site
